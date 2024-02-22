@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 20px;
+            /* margin-bottom: 10px; */
+            box-sizing: border-box;
+            border-radius: 10px 0 0 10px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgb(0, 115, 255);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-evenly;
+            /* background: wheat; */
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .btn {
+            background-color: rgb(0, 115, 255);
+            color: white;
+            padding: 15px 20px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .taskContainer {
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .Xbtn{
+            padding: 5px 8px;
+            border: 0;
+            background: rgb(255, 55, 55);
+            color: white;
+            font-weight: bolder;
+            border-radius: 50%;
+        }
+        .info{
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>To-Do App</h1>
+        <div style="display: flex; height: 50px; align-items: center; justify-content: center;">
+            <input type="text" id="taskInput" placeholder="Add new task...">
+            <button onclick="addTask()" class="btn">Add Task</button>
+        </div>
+        <p class="info">"Click on the task to mark as complete/incomplete!"</p>
+        <div class="taskContainer">
+            <div>
+                <h2>Pending Tasks</h2>
+                <ul id="pendingTasks"></ul>
+            </div>
+
+            <div>
+                <h2>Completed Tasks</h2>
+                <ul id="completedTasks"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addTask() {
+            var taskInput = document.getElementById("taskInput");
+            var taskText = taskInput.value.trim();
+            if (taskText === "") {
+                alert("Please enter a task.");
+                return;
+            }
+
+            var li = document.createElement("li");
+            li.textContent = taskText;
+            li.onclick = function () {
+                toggleTaskStatus(li);
+            };
+
+            var deleteButton = document.createElement("button");
+            deleteButton.textContent = "X";
+            deleteButton.classList.add("Xbtn")
+            deleteButton.onclick = function (event) {
+                event.stopPropagation();
+                li.remove();
+            };
+            li.appendChild(deleteButton);
+
+            document.getElementById("pendingTasks").appendChild(li);
+            taskInput.value = "";
+        }
+
+        function toggleTaskStatus(task) {
+            if (task.classList.contains("completed")) {
+                task.classList.remove("completed");
+                document.getElementById("pendingTasks").appendChild(task);
+            } else {
+                task.classList.add("completed");
+                document.getElementById("completedTasks").appendChild(task);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
